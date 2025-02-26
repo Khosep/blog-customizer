@@ -3,10 +3,9 @@ import { useEffect, useRef } from 'react';
 type UseCloseOutsideClickOrEscape = {
 	isOpen: boolean;
 	onClose: () => void;
-	//rootRef: React.RefObject<HTMLDivElement>;
 };
 
-export const UseCloseOutsideClickOrEscape = ({
+export const useCloseOutsideClickOrEscape = ({
 	isOpen,
 	onClose,
 }: UseCloseOutsideClickOrEscape) => {

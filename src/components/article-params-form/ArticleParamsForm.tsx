@@ -17,7 +17,7 @@ import {
 	OptionType,
 	ArticleStateType,
 } from 'src/constants/articleProps';
-import { UseCloseOutsideClickOrEscape } from '../hooks/useCloseOutsideClickOrEscape';
+import { useCloseOutsideClickOrEscape } from '../hooks/useCloseOutsideClickOrEscape';
 
 interface ArticleParamsFormProps {
 	setStyleState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
@@ -60,7 +60,7 @@ export const ArticleParamsForm = ({
 	};
 
 	// Возможность закрытия сайдбара по клику вне элемента или по Esc
-	const rootRef = UseCloseOutsideClickOrEscape({
+	const rootRef = useCloseOutsideClickOrEscape({
 		isOpen,
 		onClose: () => setIsOpen(false),
 	});
