@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 type UseCloseOutsideClickOrEscape = {
 	isOpen: boolean;
 	onClose: () => void;
+	//onClose: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const useCloseOutsideClickOrEscape = ({
@@ -25,13 +26,14 @@ export const useCloseOutsideClickOrEscape = ({
 	};
 
 	useEffect(() => {
-		if (isOpen) {
-			window.addEventListener('mousedown', handleOutsideClick);
-			window.addEventListener('keydown', handleEscKeyDown);
-		}
+		if (!isOpen) return; // останавливаем действие эффекта, если сайдбар закрыт
+
+		document.addEventListener('mousedown', handleOutsideClick);
+		document.addEventListener('keydown', handleEscKeyDown);
+
 		return () => {
-			window.removeEventListener('mousedown', handleOutsideClick);
-			window.removeEventListener('keydown', handleEscKeyDown);
+			document.removeEventListener('mousedown', handleOutsideClick);
+			document.removeEventListener('keydown', handleEscKeyDown);
 		};
 	}, [isOpen, onClose]);
 

@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import {
 	ArticleStateType,
 	defaultArticleState,
@@ -14,7 +13,7 @@ export const App = () => {
 
 	return (
 		<main
-			className={clsx(styles.main)}
+			className={styles.main}
 			style={
 				{
 					'--font-family': styleState.fontFamilyOption.value,

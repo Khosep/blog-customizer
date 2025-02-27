@@ -1,7 +1,7 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import styles from './ArticleParamsForm.module.scss';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Select } from 'src/ui/select';
@@ -20,7 +20,10 @@ import {
 import { useCloseOutsideClickOrEscape } from '../hooks/useCloseOutsideClickOrEscape';
 
 interface ArticleParamsFormProps {
+	// Если зависим от предыдущего состояния (setState(prevState => ({ ...prevState, newValue }))), то:
 	setStyleState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
+	// Если не зависим от предыдущего состояния (setState(newState), то:
+	// setStyleState: (newStyle: ArticleStateType) => void;
 }
 
 export const ArticleParamsForm = ({
@@ -49,20 +52,28 @@ export const ArticleParamsForm = ({
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setStyleState(() => formValues);
+		// setStyleState(formValues);
 	};
 
 	// Обработчик сброса настроек
 	const handleReset = () => {
 		// Сбрасываем состояние формы до дефолтного
-		setFormValues(() => defaultArticleState);
+		// setFormValues(() => defaultArticleState); //избыточно, т.к. не зависим от предыдущего состояния
+		setFormValues(defaultArticleState);
+
 		// Сбрасываем состояние стилей до дефолтного
-		setStyleState(() => defaultArticleState);
+		// setStyleState(() => defaultArticleState); //избыточно, т.к. не зависим от предыдущего состояния
+		setStyleState(defaultArticleState);
 	};
+	// Функция закрытия сайдбара (для передачи в useCloseOutsideClickOrEscape)
+	const closeWithFalse = useCallback(() => setIsOpen(false), []);
+	// const closeWithFalse = () => setIsOpen(false);
 
 	// Возможность закрытия сайдбара по клику вне элемента или по Esc
 	const rootRef = useCloseOutsideClickOrEscape({
 		isOpen,
-		onClose: () => setIsOpen(false),
+		onClose: closeWithFalse,
+		//onClose: () => setIsOpen(false),
 	});
 
 	return (
